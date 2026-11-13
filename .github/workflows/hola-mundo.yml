@@ -1,0 +1,16 @@
+name: saludo
+
+on:
+  push:
+    branches: ["aprendiendo-github-actions"]
+
+jobs:
+  hola-mundo:
+    runs-on: windows-latest
+
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Hola mundo
+        run: python .github/script/saludo.py
