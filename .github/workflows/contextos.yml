@@ -37,7 +37,8 @@ jobs:
           echo "Rama: ${{ github.ref }}"
 
       - name: Mostrar mensaje
-        run: echo "Información: $mensaje"
+        run: |
+          echo "Informacion: $env:mensaje"
 
       - name: Utilizar token
         env:
