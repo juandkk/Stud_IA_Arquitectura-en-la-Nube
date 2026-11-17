@@ -1,0 +1,35 @@
+name: expresiones-y-funciones
+run-name: expresiones
+on:
+  push:
+    branches:
+      - main
+      - aprendiendo-github-actions
+    paths:
+      - '**.py'
+
+  schedule:
+    - cron: '25 6,15 * * *'
+
+  pull_request:
+    types:
+      - opened
+      - labeled
+      - closed
+
+jobs:
+  hola-mundo:
+    if: ${{ contains(github.event_name, 'push') || github.event_name == 'schedule' }}
+    runs-on: windows-latest
+
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Mostrar información
+        run: |
+          echo "Evento: ${{ github.event_name }}"
+          echo "Rama: ${{ github.ref }}"
+
+      - name: Hola mundo
+        run: python .github/script/saludo.py

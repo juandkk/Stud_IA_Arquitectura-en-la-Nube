@@ -1,0 +1,58 @@
+
+name: expresiones-y-funciones
+run-name: variables
+
+on:
+  push:
+    branches:
+      - main
+      - aprendiendo-github-actions
+    paths:
+      - '**/*.py'
+
+  schedule:
+    - cron: '25 6,15 * * *'
+
+  pull_request:
+    types:
+      - opened
+      - labeled
+      - closed
+
+env:
+  MENSAJE: "Hola-Mundo"
+
+jobs:
+  variables:
+    runs-on: ubuntu-latest
+    env:
+      CIUDAD: "Medellín"
+
+    steps:
+      - name: Mostrar ciudad
+        run: echo "Ciudad: $CIUDAD"
+
+  hola-mundo:
+    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' }}
+    runs-on: windows-latest
+
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Mostrar información
+        run: |
+          echo "Evento: ${{ github.event_name }}"
+          echo "Rama: ${{ github.ref }}"
+
+      - name: Mostrar mensaje
+        run: |
+          echo "Informacion: $env:MENSAJE"
+
+      - name: Utilizar token
+        env:
+          TOKEN: ${{ secrets.MI_TOKEN }}
+        run: echo "Token configurado correctamente"
+
+      - name: Hola mundo
+        run: python .github/script/saludo.py
