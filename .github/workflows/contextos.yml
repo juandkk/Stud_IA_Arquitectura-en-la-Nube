@@ -1,0 +1,48 @@
+
+name: expresiones-y-funciones
+run-name: contextos
+
+on:
+  push:
+    branches:
+      - main
+      - aprendiendo-github-actions
+    paths:
+      - '**/*.py'
+
+  schedule:
+    - cron: '25 6,15 * * *'
+
+  pull_request:
+    types:
+      - opened
+      - labeled
+      - closed
+
+env:
+  mensaje: Hola-Mundo
+
+jobs:
+  hola-mundo:
+    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' }}
+    runs-on: windows-latest
+
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Mostrar información
+        run: |
+          echo "Evento: ${{ github.event_name }}"
+          echo "Rama: ${{ github.ref }}"
+
+      - name: Mostrar mensaje
+        run: echo "Información: $mensaje"
+
+      - name: Utilizar token
+        env:
+          TOKEN: ${{ secrets.MI_TOKEN }}
+        run: echo "Token configurado correctamente"
+
+      - name: Hola mundo
+        run: python .github/script/saludo.py
